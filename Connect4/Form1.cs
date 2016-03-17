@@ -23,6 +23,11 @@ namespace Connect4
             InitializeComponent();
         }
 
+        private void pictureBox_Click(object sender, EventArgs e)
+        {
+            ChangeColor(this.pictureBox1, player1Color);
+        }
+
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             ChangeColor(this.pictureBox1, player1Color);
@@ -40,5 +45,7 @@ namespace Connect4
             }
             rounds++;
         }
+
+
     }
 }
