@@ -37,6 +37,7 @@ namespace Connect4
                     board[x, y] = slot;
                 }
             }
+            MessageBox.Show("Spelare1 (Röd) börjar!");
         }
 
 
@@ -54,21 +55,100 @@ namespace Connect4
 
                 if (CheckIfSomeOneWon() == true)
                 {
-
+                    if (board[xCoordinate, yCoordinate].color == "Red")
+                    {
+                        MessageBox.Show("Spelare1 (Röd) har vunnit!");
+                    }
+                    if (board[xCoordinate, yCoordinate].color == "Yellow")
+                    {
+                        MessageBox.Show("Spelare2 (Gul) har vunnit!");
+                    }
+                }
+                if (GameTie() == true)
+                {
+                    MessageBox.Show("Det blev oavgjort!");
                 }
             }
 
             
         }
 
+        private bool GameTie()
+        {
+            bool gameTie = false;
+            int numberOfSlots = boardXWidth * boardYHeight;
+            int fullSlots = 0;
+
+            for (int x = 0; x < boardXWidth; x++)
+            {
+                for (int y = 0; y < boardYHeight; y++)
+                {
+                    if (board[x,y].color != "Empty")
+                    { fullSlots++; }
+                }
+            }
+
+            if (numberOfSlots == fullSlots)
+            { gameTie = true; }
+
+            return gameTie;
+        }
+
         private bool CheckIfSomeOneWon()
         {
             bool someOneWon = false;
 
-            //for (int i = 0; i < length; i++)
-            //{
-            //    boar
-            //}
+            #region Kollar alla RADER
+            for (int y = 0; y < boardYHeight; y++)
+            {
+                for (int x = 0; x < (boardXWidth - 3); x++)
+                {
+                    if (board[x, y].color == board[(x + 1), y].color && board[x, y].color == board[(x + 2), y].color && board[x, y].color == board[(x + 3), y].color && board[x, y].color != "Empty")
+                    {
+                        someOneWon = true;
+                    }
+                }
+            }
+            #endregion
+
+            #region Kollar alla KOLUMNER
+            for (int x = 0; x < boardXWidth; x++)
+            {
+                for (int y = 0; y < (boardYHeight - 3); y++)
+                {
+                    if (board[x, y].color == board[x, (y + 1)].color && board[x, y].color == board[x, (y+2)].color && board[x, y].color == board[x,(y+3)].color && board[x, y].color != "Empty")
+                    {
+                        someOneWon = true;
+                    }
+                }
+            }
+            #endregion
+
+            #region Kollar Diagonaler åt Höger
+            for (int x = 0; x < (boardXWidth -3); x++)
+            {
+                for (int y = 0; y < (boardYHeight - 3); y++)
+                {
+                    if (board[x, y].color == board[(x + 1), (y + 1)].color && board[x, y].color == board[(x + 2), (y + 2)].color && board[x, y].color == board[(x + 3), (y + 3)].color && board[x, y].color != "Empty")
+                    {
+                        someOneWon = true;
+                    }
+                }
+            }
+            #endregion
+
+            #region Kollar Diagonaler åt Vänster
+            for (int x = 6; x > 2; x--) // HÅRDKODAT!
+            {
+                for (int y = 0; y < (boardYHeight - 3); y++)
+                {
+                    if (board[x, y].color == board[(x - 1), (y + 1)].color && board[x, y].color == board[(x - 2), (y + 2)].color && board[x, y].color == board[(x - 3), (y + 3)].color && board[x, y].color != "Empty")
+                    {
+                        someOneWon = true;
+                    }
+                }
+            }
+            #endregion
 
             return someOneWon;
         }
